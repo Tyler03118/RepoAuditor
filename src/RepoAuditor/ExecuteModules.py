@@ -67,6 +67,7 @@ def Execute(
         parallel: list[tuple[int, ModuleInfo]] = []
         sequential: list[tuple[int, ModuleInfo]] = []
 
+
         for index, module_info in enumerate(module_infos):
             if module_info.module.style == ExecutionStyle.Parallel:
                 parallel.append((index, module_info))
@@ -149,10 +150,14 @@ def Execute(
                         )
 
                     # ----------------------------------------------------------------------
-
+                    print("=============Start Evaluate============= ")
                     evaluate_results = Evaluate(module_info, OnStatus)
+                    
+                    print("=============End Evaluate=============")
 
                     result_code, result_status = CalcResultInfo(evaluate_results)
+                    print("=============Evaluate Code=============: ", result_code)
+                    print("=============Evaluate Status=============: ", result_status)
 
                     return ExecuteTasks.TransformResultComplete(
                         evaluate_results, result_code, result_status
@@ -174,7 +179,7 @@ def Execute(
                         for _, module_info in parallel
                     ],
                     Prepare,
-                    max_num_threads=max_num_threads,
+                    max_num_threads=1,
                 ),
             ):
                 assert all_results[all_results_index] is None
