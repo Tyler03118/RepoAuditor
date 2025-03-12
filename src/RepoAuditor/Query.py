@@ -6,6 +6,7 @@
 # -------------------------------------------------------------------------------
 """Contains the Query object and types used in its definition"""
 
+import os
 import threading
 
 from abc import ABC, abstractmethod
@@ -26,7 +27,16 @@ class OnStatusFunc(Protocol):
         num_warning: int,
         num_does_not_apply: int,
     ) -> None: ...
-
+def print_nested_dict(d, indent=0):
+    if isinstance(d, dict):
+        for key, value in d.items():
+            print("  " * indent + f"Key: {key}")
+            if isinstance(value, dict):
+                print_nested_dict(value, indent + 1)
+            else:
+                print("  " * (indent + 1) + f"Value: {value}")
+    else:
+        print("  " * indent + f"Value: {d}")
 
 # ----------------------------------------------------------------------
 class Query(ABC):
@@ -79,14 +89,22 @@ class Query(ABC):
         status_info_lock = threading.Lock()
 
         status_func(*status_info.__dict__.values())
-
+        
         # ----------------------------------------------------------------------
         def EvaluateRequirement(
             requirement: Requirement,
         ) -> tuple[int, Query.EvaluateInfo]:
+            if requirement.name ==None:
+                print( 00000000000000000000000000000000000000000000000)
+            if requirement_args is None:
+                  with open('bug.txt','w') as f:
+                      f.write('Bug')
+                      f.close()
+                  raise ValueError("requirement_args is not initialized!")
+            print_nested_dict(requirement_args)
             result_info = requirement.Evaluate(
                 query_data,
-                requirement_args.get(requirement.name, {}),
+                requirement_args.get(requirement.name,{}),
             )
             return_code = 0
 
@@ -98,6 +116,7 @@ class Query(ABC):
                 elif result_info.result == EvaluateResult.Success:
                     status_info.num_success += 1
                 elif result_info.result == EvaluateResult.Error:
+                   # os.system('cls')
                     status_info.num_error += 1
                     return_code = -1
                 elif result_info.result == EvaluateResult.Warning:

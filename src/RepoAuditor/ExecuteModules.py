@@ -90,10 +90,12 @@ def Execute(
             module_data = module_info.module.GenerateInitialData(module_info.dynamic_args)
             if module_data is None:
                 return []
-
+            #print(f'module_data{module_data}')
+            print(f'module_info的requirment_args的{module_info.requirement_args}')
+            
             return module_info.module.Evaluate(
                 module_data,
-                module_info.requirement_args,
+                module_info.requirement_args,#这玩意等于None
                 on_status_func,
                 max_num_threads=max_num_threads,
             )
@@ -153,7 +155,7 @@ def Execute(
                     print("=============Start Evaluate============= ")
                     evaluate_results = Evaluate(module_info, OnStatus)
                     
-                    print("=============End Evaluate=============")
+                   # print(f"=============End Evaluate============={evaluate_results}")
 
                     result_code, result_status = CalcResultInfo(evaluate_results)
                     print("=============Evaluate Code=============: ", result_code)
@@ -179,10 +181,11 @@ def Execute(
                         for _, module_info in parallel
                     ],
                     Prepare,
-                    max_num_threads=1,
+                    max_num_threads=max_num_threads,
                 ),
             ):
                 assert all_results[all_results_index] is None
+                #print(transformed_results)
                 assert isinstance(transformed_results, list), transformed_results
 
                 all_results[all_results_index] = transformed_results
