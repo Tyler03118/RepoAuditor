@@ -42,7 +42,6 @@ class CustomizationQuery(Query):
         module_data: dict[str, Any],
     ) -> Optional[dict[str, Any]]:
         try:
-            print(f"CustomizationQuery.GetData: module_data = {module_data}")
 
             # Get the repository path
             repo_path = module_data.get("repo_path")

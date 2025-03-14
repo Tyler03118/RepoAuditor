@@ -46,6 +46,13 @@ class GitHubCustomizationModule(Module):
                     help="Path to the repository root directory. If not provided, will use URL from GitHub plugin.",
                 ),
             ),
+             "url": (
+                str,
+                typer.Option(
+                    ".",
+                    help="URL to the github repository.",
+                ),
+            ),
         }
 
     @override
