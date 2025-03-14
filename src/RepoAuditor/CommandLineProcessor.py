@@ -185,7 +185,6 @@ class CommandLineProcessor:
         for module_name, module in module_map.items():
             module_args = dynamic_args.get(module_name, {})
             requirement_args = module_args.pop(None, {})  # type: ignore
-            #print(requirement_args)#上一句原先第二个是None该语句很重要，涉及一个模块字典记录的None键的地方给与默认空字典值的操作，因为原先这里给了None所以导致后续报错
             module_infos.append(ModuleInfo(module, module_args, requirement_args))
 
         return cls(

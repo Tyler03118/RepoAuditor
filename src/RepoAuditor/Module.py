@@ -120,7 +120,6 @@ class Module(ABC):
     ) -> list[list["Module.EvaluateInfo"]]:
         
         start_time=time.time()
-        print(f"start_time是{start_time}")
         status_info = StatusInfo()
         status_info_lock = threading.Lock()
 
@@ -203,7 +202,6 @@ class Module(ABC):
 
         # ----------------------------------------------------------------------
         end_time=time.time()
-        print("end_time是{end_time}")
         return ParallelSequentialProcessor(
             self.queries,
             EvaluateQuery,
